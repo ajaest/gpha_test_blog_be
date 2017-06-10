@@ -1,4 +1,9 @@
 geographica-blog
 ================
 
-A Symfony project created on June 9, 2017, 4:47 pm.
+```bash
+$ php bin/console doctrine:database:drop  --force
+$ php bin/console doctrine:database:create
+$ php bin/console doctrine:schema:update --force
+```
+
