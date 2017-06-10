@@ -17,7 +17,7 @@ class BasePostTypes{
 /**
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\Table(name="posts")
+ * @ORM\Table(name="blog_posts")
  */
 class Post extends BasePostTypes
 {
@@ -43,7 +43,7 @@ class Post extends BasePostTypes
 
     /**
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
-     * @ORM\JoinTable(name="post_tags")
+     * @ORM\JoinTable(name="blog_post_tags")
      */
     private $tags;
 
