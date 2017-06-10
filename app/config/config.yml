@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@BlogBundle/Resources/config/services.yml" }
+    - { resource: "@AuthorizationBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -68,3 +69,21 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+fos_oauth_server:
+    db_driver: orm       # Drivers available: orm, mongodb, or propel
+    client_class:        AuthorizationBundle\Entity\Client
+    access_token_class:  AuthorizationBundle\Entity\AccessToken
+    refresh_token_class: AuthorizationBundle\Entity\RefreshToken
+    auth_code_class:     AuthorizationBundle\Entity\AuthCode
+
+    service:
+        user_provider: fos_user.user_provider.username
+
+fos_user:
+    db_driver: orm
+    user_class: AuthorizationBundle\Entity\User
+    firewall_name: main
+    from_email:
+        address:        noreply@geographica.com
+        sender_name:    No reply

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="tags")
+ * @ORM\Table(name="blog_tags")
  */
 class Tag{
 
