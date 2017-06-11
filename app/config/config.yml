@@ -55,6 +55,9 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+ivory_base64_file:
+    default: true
+
 nelmio_cors:
     paths:
         '^/':
