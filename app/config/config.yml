@@ -50,35 +50,32 @@ doctrine:
         user: '%database_user%'
         password: '%database_password%'
         charset: UTF8
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: "%kernel.project_dir%/var/data/data.sqlite"
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #path: '%database_path%'
-
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
-# Swiftmailer Configuration
-swiftmailer:
-    transport: '%mailer_transport%'
-    host: '%mailer_host%'
-    username: '%mailer_user%'
-    password: '%mailer_password%'
-    spool: { type: memory }
+ivory_base64_file:
+    default: true
 
-fos_oauth_server:
-    db_driver: orm       # Drivers available: orm, mongodb, or propel
-    client_class:        AuthorizationBundle\Entity\Client
-    access_token_class:  AuthorizationBundle\Entity\AccessToken
-    refresh_token_class: AuthorizationBundle\Entity\RefreshToken
-    auth_code_class:     AuthorizationBundle\Entity\AuthCode
+nelmio_cors:
+    paths:
+        '^/':
+            allow_origin: ['http://localhost:8888']
+            allow_headers: ['Authorization', 'X-Requested-With', 'Content-Type', 'Accept', 'Origin', 'X-Custom-Auth']
+            allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+            max_age: 3600
 
-    service:
-        user_provider: fos_user.user_provider.username
+
+#fos_oauth_server:
+#    db_driver: orm       # Drivers available: orm, mongodb, or propel
+#    client_class:        AuthorizationBundle\Entity\Client
+#    access_token_class:  AuthorizationBundle\Entity\AccessToken
+#    refresh_token_class: AuthorizationBundle\Entity\RefreshToken
+#    auth_code_class:     AuthorizationBundle\Entity\AuthCode
+#
+#    service:
+#        user_provider: fos_user.user_provider.username
 
 fos_user:
     db_driver: orm
@@ -87,3 +84,30 @@ fos_user:
     from_email:
         address:        noreply@geographica.com
         sender_name:    No reply
+
+fos_rest:
+    param_fetcher_listener: true
+    view:
+        mime_types:
+            json: ['application/json', 'application/json;version=1.0', 'application/json;version=1.1']
+        view_response_listener: 'force'
+        formats:
+            xml:  false
+            json: true
+        templating_formats:
+            html: true
+    format_listener:
+        rules:
+            - { path: ^/, priorities: [ json, html ], fallback_format: ~, prefer_extension: true }
+#        media_type:
+#            version_regex: '/(v|version)=(?P<version>[0-9\.]+)/'
+    exception:
+        codes:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': 404
+            'Doctrine\ORM\OptimisticLockException': HTTP_CONFLICT
+        messages:
+            'Symfony\Component\Routing\Exception\ResourceNotFoundException': true
+    allowed_methods_listener: true
+    access_denied_listener:
+        json: true
+    body_listener: true

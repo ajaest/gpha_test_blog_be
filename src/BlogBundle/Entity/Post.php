@@ -5,22 +5,27 @@ namespace BlogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections;
 
-
-class BasePostTypes{
+class PostTypes{
     const TEXT_POST_DISCRIMINATOR      = 'text'     ;
     const QUOTATION_POST_DISCRIMINATOR = 'quotation';
     const IMAGE_POST_DISCRIMINATOR     = 'image'    ;
-    const BASE_POST_DISCRIMINATOR      = 'post'     ;
+    const POST_DISCRIMINATOR           = NULL       ; // Prevent base type from being used
 }
 
 
 /**
- * @ORM\Entity
- * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\Entity(repositoryClass="BlogBundle\Repository\PostRepository")
  * @ORM\Table(name="blog_posts")
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({
+ *     Post::TEXT_POST_DISCRIMINATOR      = "TextPost"     ,
+ *     Post::QUOTATION_POST_DISCRIMINATOR = "QuotationPost",
+ *     Post::IMAGE_POST_DISCRIMINATOR     = "ImagePost"    ,
+ *     Post::POST_DISCRIMINATOR           = "Post"
+ * })
  */
-class Post extends BasePostTypes
-{
+class Post extends PostTypes {
 
     /**
      * @ORM\Column(type="integer")
@@ -28,7 +33,6 @@ class Post extends BasePostTypes
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
 
     /**
      * @ORM\Column(type="string", length=100, nullable=FALSE)
@@ -65,22 +69,6 @@ class Post extends BasePostTypes
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
     }
 
     /**
@@ -130,22 +118,5 @@ class Post extends BasePostTypes
     {
         $this->tags = $tags;
     }
-
-
-}
-
-/**
- * @ORM\Entity
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\Table(name="posts")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *     BasePostTypes::TEXT_POST_DISCRIMINATOR      = "TextPost"     ,
- *     BasePostTypes::QUOTATION_POST_DISCRIMINATOR = "QuotationPost",
- *     BasePostTypes::IMAGE_POST_DISCRIMINATOR     = "ImagePost"    ,
- *     BasePostTypes::BASE_POST_DISCRIMINATOR      = "BasePost"
- * })
- */
-abstract class BasePost extends Post{
 
 }

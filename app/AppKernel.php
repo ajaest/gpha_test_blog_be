@@ -8,16 +8,38 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
+            # Framework library
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
+            # Security and authorization firewall
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
+            # Templating library
             new Symfony\Bundle\TwigBundle\TwigBundle(),
+            # Logging library
             new Symfony\Bundle\MonologBundle\MonologBundle(),
+            # Mailer library. Needed by FOS\UserBundle\FOSUserBundle
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
+            # ORM
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            # Annotation and utilities
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+
+            # Base 64 form type
+            new Ivory\Base64FileBundle\IvoryBase64FileBundle(),
+            # CORS support
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
+            # User entities and logic
             new FOS\UserBundle\FOSUserBundle(),
-            new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            # OAuth library
+            #new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            # Serializer library. Must be before FOS\RestBundle\FOSRestBundle
+            new JMS\SerializerBundle\JMSSerializerBundle($this),
+            # REST API Library
+            new FOS\RestBundle\FOSRestBundle(),
+
+            # CUSTOM Oauth entities, server & client
             new AuthorizationBundle\AuthorizationBundle(),
+
+            # CUSTOM blog logic
             new BlogBundle\BlogBundle()
         ];
 

@@ -1,4 +1,54 @@
+parameters:
+    blog.entities.post.class: BlogBundle\Entity\Post
+    blog.entities.post.image.class: BlogBundle\Entity\ImagePost
+    blog.entities.post.quotation.class: BlogBundle\Entity\QuotationPost
+    blog.entities.post.text.class: BlogBundle\Entity\TextPost
+    blog.entities.tag.class: BlogBundle\Entity\Tag
+
+    blog.repositories.post.class: BlogBundle\Repository\PostRepository
+
+    blog.controllers.post.class: BlogBundle\Controller\PostController
+
+    blog.form.types.textpost.class: BlogBundle\Form\TextPostType
+    blog.form.types.imagepost.class: BlogBundle\Form\ImagePostType
+
 services:
-#    blog.example:
-#        class: BlogBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    # FormType
+    blog.form.types.textpost:
+        class: '%blog.form.types.textpost.class%'
+        arguments:
+            - '%blog.entities.tag.class%'
+
+    blog.form.types.imagepost:
+        class: '%blog.form.types.imagepost.class%'
+        arguments:
+            - '%blog.entities.tag.class%'
+
+    # Repositories
+    blog.repositories.post:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - '%blog.entities.post.class%'
+        calls:
+            - [setPostClasses, ['%blog.entities.post.text.class%', '%blog.entities.post.quotation.class%', '%blog.entities.post.image.class%' ]]
+
+    blog.repositories.tag:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - '%blog.entities.tag.class%'
+
+    # Controllers
+    blog.controllers.post:
+        class: '%blog.controllers.post.class%'
+
+        arguments:
+            - '@service_container'
+            - '@blog.repositories.post'
+            - '@blog.repositories.tag'
+            - '@blog.form.types.textpost'
+            - '@blog.form.types.imagepost'
+            - '%blog.entities.post.text.class%'
+            - '%blog.entities.post.quotation.class%'
+            - '%blog.entities.post.image.class%'
