@@ -23,6 +23,8 @@ class AppKernel extends Kernel
             # Annotation and utilities
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
+            # Base 64 form type
+            new Ivory\Base64FileBundle\IvoryBase64FileBundle(),
             # CORS support
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             # User entities and logic

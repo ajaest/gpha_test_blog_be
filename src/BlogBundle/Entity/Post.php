@@ -118,4 +118,5 @@ class Post extends PostTypes {
     {
         $this->tags = $tags;
     }
+
 }
