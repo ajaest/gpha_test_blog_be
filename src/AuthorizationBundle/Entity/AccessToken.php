@@ -6,8 +6,8 @@ use FOS\OAuthServerBundle\Entity\AccessToken as BaseAccessToken;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table("auth_access_tokens")
  * @ORM\Entity
- * @ORM\Table(name="auth_tokens")
  */
 class AccessToken extends BaseAccessToken
 {

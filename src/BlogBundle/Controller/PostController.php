@@ -195,7 +195,7 @@ class PostController extends FOSRestController
             $foundTags
         );
 
-        $missingTagNames = array_diff($tagNames, $foundTagNames);
+        $missingTagNames = array_unique(array_diff($tagNames, $foundTagNames));
 
         $tagClass = $this->tagRepository->getClassName();
         foreach($missingTagNames as $missingTagName){

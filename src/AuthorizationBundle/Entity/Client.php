@@ -4,50 +4,35 @@ namespace AuthorizationBundle\Entity;
 
 use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ORM\Table("auth_clients")
  * @ORM\Entity
- * @ORM\Table(name="auth_clients")
  */
 class Client extends BaseClient
 {
-     /**
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50)
+     * @ORM\Column(type="string", nullable=FALSE, unique=TRUE)
+     * @Assert\Length(
+     *     min = 2,
+     *     minMessage="Your application name must have at least {{ limit }} characters."
+     * )
      */
-    private $name;
-    /**
-     * @var User
-     *
-     * @ORM\OneToOne(targetEntity="User")
-     */
-    private $user;
-    /**
-     * @var AccessToken
-     *
-     * @ORM\OneToMany(targetEntity="AccessToken", mappedBy="client")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $tokens;
-    /**
-     * @var RefreshToken
-     *
-     * @ORM\OneToMany(targetEntity="RefreshToken", mappedBy="client")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     */
-    private $refreshTokens;
+    protected $name;
+
     public function __construct()
     {
         parent::__construct();
-        // your own logic
     }
+
     /**
      * @return mixed
      */
@@ -55,6 +40,7 @@ class Client extends BaseClient
     {
         return $this->id;
     }
+
     /**
      * @param mixed $id
      */
@@ -62,61 +48,22 @@ class Client extends BaseClient
     {
         $this->id = $id;
     }
+
     /**
-     * @return string
+     * @return mixed
      */
     public function getName()
     {
         return $this->name;
     }
+
     /**
-     * @param string $name
+     * @param mixed $name
      */
     public function setName($name)
     {
         $this->name = $name;
     }
-    /**
-     * @return RefreshToken
-     */
-    public function getRefreshTokens()
-    {
-        return $this->refreshTokens;
-    }
-    /**
-     * @param RefreshToken $refreshTokens
-     */
-    public function setRefreshTokens(RefreshToken $refreshTokens)
-    {
-        $this->refreshTokens = $refreshTokens;
-    }
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-    }
-    /**
-     * @return AccessToken
-     */
-    public function getTokens()
-    {
-        return $this->tokens;
-    }
-    /**
-     * @param AccessToken $tokens
-     */
-    public function setTokens(AccessToken $tokens)
-    {
-        $this->tokens = $tokens;
-    }
-}
 
+
+}

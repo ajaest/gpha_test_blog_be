@@ -25,12 +25,14 @@ class AppKernel extends Kernel
 
             # Base 64 form type
             new Ivory\Base64FileBundle\IvoryBase64FileBundle(),
+            # Fixtures(necessary to introduce default user and client/application data
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             # CORS support
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             # User entities and logic
             new FOS\UserBundle\FOSUserBundle(),
             # OAuth library
-            #new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
             # Serializer library. Must be before FOS\RestBundle\FOSRestBundle
             new JMS\SerializerBundle\JMSSerializerBundle($this),
             # REST API Library
