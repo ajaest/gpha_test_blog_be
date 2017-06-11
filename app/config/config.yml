@@ -67,20 +67,20 @@ nelmio_cors:
             max_age: 3600
 
 
-#fos_oauth_server:
-#    db_driver: orm       # Drivers available: orm, mongodb, or propel
-#    client_class:        AuthorizationBundle\Entity\Client
-#    access_token_class:  AuthorizationBundle\Entity\AccessToken
-#    refresh_token_class: AuthorizationBundle\Entity\RefreshToken
-#    auth_code_class:     AuthorizationBundle\Entity\AuthCode
-#
-#    service:
-#        user_provider: fos_user.user_provider.username
+fos_oauth_server:
+    db_driver: orm       # Drivers available: orm, mongodb, or propel
+    client_class:        AuthorizationBundle\Entity\Client
+    access_token_class:  AuthorizationBundle\Entity\AccessToken
+    refresh_token_class: AuthorizationBundle\Entity\RefreshToken
+    auth_code_class:     AuthorizationBundle\Entity\AuthCode
+
+    service:
+        user_provider: fos_user.user_provider.username
 
 fos_user:
     db_driver: orm
     user_class: AuthorizationBundle\Entity\User
-    firewall_name: main
+    firewall_name: api_privileged
     from_email:
         address:        noreply@geographica.com
         sender_name:    No reply

@@ -10,5 +10,7 @@ OAuth2 integration was implemented following these tuturials and copying some of
 $ php bin/console doctrine:database:drop  --force
 $ php bin/console doctrine:database:create
 $ php bin/console doctrine:schema:update --force
+# Necessary to load test oauth2 client and user
+$ php bin/console doctrine:fixtures:load
 ```
 
