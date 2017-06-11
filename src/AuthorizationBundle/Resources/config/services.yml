@@ -1,4 +1,1 @@
 services:
-#    authorization.example:
-#        class: AuthorizationBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
