@@ -8,6 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class QuotationPost extends BasePost{
+class QuotationPost extends Post{
 
 }

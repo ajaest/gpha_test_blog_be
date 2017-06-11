@@ -8,6 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class ImagePost extends BasePost{
+class ImagePost extends Post{
 
 }

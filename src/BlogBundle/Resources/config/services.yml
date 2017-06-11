@@ -1,4 +1,27 @@
+parameters:
+    blog.entities.post.class: BlogBundle\Entity\Post
+    blog.entities.post.image.class: BlogBundle\Entity\ImagePost
+    blog.entities.post.quotation.class: BlogBundle\Entity\QuotationPost
+    blog.entities.post.text.class: BlogBundle\Entity\TextPost
+
+    blog.repositories.post.class: BlogBundle\Repository\PostRepository
+
+    blog.controllers.post.class: BlogBundle\Controller\PostController
+
 services:
-#    blog.example:
-#        class: BlogBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    # Repositories
+    blog.repositories.post:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - '%blog.entities.post.class%'
+        calls:
+            - [setPostClasses, ['%blog.entities.post.text.class%', '%blog.entities.post.quotation.class%', '%blog.entities.post.image.class%' ]]
+
+    # Controllers
+    blog.controllers.post:
+        class: '%blog.controllers.post.class%'
+
+        arguments:
+            - '@service_container'
+            - '@blog.repositories.post'
